@@ -1,6 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 
-const CustomAudioControls = ({ audioLink }) => {
+interface CustomAudioControlsProps {
+  audioLink: string;
+}
+
+const CustomAudioControls: React.FC<CustomAudioControlsProps> = ({
+  audioLink,
+}) => {
   const audioRef = useRef(new Audio(audioLink));
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
@@ -43,7 +49,6 @@ const CustomAudioControls = ({ audioLink }) => {
       <button onClick={togglePlayPause}>{isPlaying ? "Pause" : "Play"}</button>
       <button onClick={backThirty}>Rewind</button>
       <button onClick={forwardThirty}>Fast Forward</button>
-      {/* <AudioDuration audioLink={audioLink} /> */}
       <audio ref={audioRef} controls />
     </div>
   );
