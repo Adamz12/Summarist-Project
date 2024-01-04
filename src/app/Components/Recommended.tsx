@@ -44,7 +44,7 @@ function Recommended() {
         {loading ? (
           <div className="skeleton subtitle__skeleton"></div>
         ) : (
-          <h6 className="sub-title">We think you'll like these</h6>
+          <h6 className="sub-title">We think you'll like these &apos;</h6>
         )}
         <div className="books">
           {book.map((book) => (
