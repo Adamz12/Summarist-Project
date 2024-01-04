@@ -1,5 +1,4 @@
 import { setEmailLoginRef } from "@/app/redux/userSlice";
-import { setLoginLoading } from "@/app/redux/loadingSlice";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -29,7 +28,6 @@ export default function useAuth() {
     (state) => state.modals
   );
   const currentPage = useSelector((state) => state.currentPage);
-  const loginLoading = useSelector((state) => state.loginLoading);
 
   const dispatch = useDispatch();
 
@@ -84,7 +82,6 @@ export default function useAuth() {
         });
 
         if (user && userCredential) {
-          dispatch(setLoginLoading(true));
           dispatch(setEmailLoginRef(user.email));
 
           setTimeout(() => {
@@ -93,8 +90,6 @@ export default function useAuth() {
           }, 2000);
         } else {
           handleLogin();
-
-          dispatch(setLoginLoading(false));
         }
 
         setUser(user);
@@ -112,27 +107,23 @@ export default function useAuth() {
         const user = userCredential.user;
 
         if (user && userCredential) {
-          dispatch(setLoginLoading(true));
           dispatch(setEmailLoginRef(user.email));
 
           setTimeout(() => {
             dispatch(closeLoginModal());
             router.push("/foryou");
           }, 2000);
-        } else {
-          dispatch(setLoginLoading(false));
         }
       })
       .catch((error) => {
         alert(`Error: ${error.message}`);
         router.back();
-        dispatch(setLoginLoading(false));
       });
   }
 
   function handleGuestSignIn() {
     const email = "guest121212@gmail.com";
-    const password = "Guest123!"; 
+    const password = "Guest123!";
 
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
@@ -179,6 +170,5 @@ export default function useAuth() {
     handleGuestSignIn,
     googleLogin,
     logout,
-    loginLoading,
   };
 }

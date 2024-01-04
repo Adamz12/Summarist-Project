@@ -7,7 +7,6 @@ import pageSlice from "./pageSlice";
 import textSlice from "./textSlice";
 import userSlice from "./userSlice";
 import sidebarSlice from "./sidebarSlice";
-import loadingSlice from "./loadingSlice";
 
 const persistConfig = {
   key: "root",
@@ -22,7 +21,6 @@ const rootReducer = combineReducers({
   currentPage: pageSlice,
   textSize: textSlice,
   sidebar: sidebarSlice,
-  loading: loadingSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
