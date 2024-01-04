@@ -1,0 +1,19 @@
+.progressBar {
+  background: linear-gradient(
+    to right,
+    rgb(43, 217, 124) var(--range-progress),
+    rgb(109, 120, 125) var(--range-progress)
+  );
+
+  --range-progress: 0%;
+
+  border-radius: 8px;
+  height: 4px;
+  max-width: 300px;
+  width: 100%;
+  cursor: pointer;
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
