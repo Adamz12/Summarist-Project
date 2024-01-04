@@ -37,47 +37,47 @@ function Personal() {
           )}
 
           {book.map((book) => (
-            <Link
-              href={`/book/${book.id}`}
-              key={book.id}
-              className="book__personal"
-            >
-              {loading ? (
-                <div className="skeleton selected__book personal__skeleton"></div>
-              ) : (
-                <div key={book.id} className="selected__book">
-                  <div className="selected__book--sub-title">
-                    {book.subTitle}
-                  </div>
-                  <div className="border__line--book"></div>
-                  <div className="selcted__book--content">
-                    <Image
-                      src={book.imageLink}
-                      width={140}
-                      height={140}
-                      alt={""}
-                    />
-                    <div className="selected__book--text">
-                      <div className="selected__book--title">{book.title}</div>
-                      <div className="selected__book--author">
-                        {book.author}
-                      </div>
-                      <div className="selected__book--duration-wrapper">
-                        <figure className="icon__wrapper">
-                          <Image
-                            src={playButton}
-                            className="selected__book--icon"
-                            alt={""}
-                          />
-                        </figure>
-                        <div className="selected__book--duration">
-                          3 mins 23 secs
+            <Link href={`/book/${book.id}`} className="book__personal">
+              <div key={book.id}>
+                {loading ? (
+                  <div className="skeleton selected__book personal__skeleton"></div>
+                ) : (
+                  <div key={book.id} className="selected__book">
+                    <div className="selected__book--sub-title">
+                      {book.subTitle}
+                    </div>
+                    <div className="border__line--book"></div>
+                    <div className="selcted__book--content">
+                      <Image
+                        src={book.imageLink}
+                        width={140}
+                        height={140}
+                        alt={""}
+                      />
+                      <div className="selected__book--text">
+                        <div className="selected__book--title">
+                          {book.title}
+                        </div>
+                        <div className="selected__book--author">
+                          {book.author}
+                        </div>
+                        <div className="selected__book--duration-wrapper">
+                          <figure className="icon__wrapper">
+                            <Image
+                              src={playButton}
+                              className="selected__book--icon"
+                              alt={""}
+                            />
+                          </figure>
+                          <div className="selected__book--duration">
+                            3 mins 23 secs
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </Link>
           ))}
         </div>

@@ -19,18 +19,9 @@ function SignupModal({ isSignUpModalOpen, closeSignUpModal, openLoginModal }) {
   const dispatch = useDispatch();
   const [error, setError] = useState<AuthError | null>(null);
   const [signUpLoading, setSignUpLoading] = useState(false);
-  const { registerEmailAndPassword } = useAuth(); 
+  const { registerEmailAndPassword } = useAuth();
   const emailRef = useRef();
   const passwordRef = useRef();
-
-  // const signUpAccount = (e) => {
-  //   e.preventDefault();
-
-  //   const email = emailRef.current.value;
-  //   const password = passwordRef.current.value;
-
-  //   registerEmailAndPassword(email, password);
-  // };
 
   const signUpAccount = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -39,7 +30,6 @@ function SignupModal({ isSignUpModalOpen, closeSignUpModal, openLoginModal }) {
     const password = passwordRef.current?.value;
 
     try {
-
       registerEmailAndPassword(email, password);
       setSignUpLoading(true);
 
@@ -51,16 +41,14 @@ function SignupModal({ isSignUpModalOpen, closeSignUpModal, openLoginModal }) {
     }
   };
 
-
-
   const closeSignUpOnly = () => {
     if (isSignUpModalOpen) {
-      closeSignUpModal(); 
+      closeSignUpModal();
     }
   };
 
   const openLoginModalOnly = () => {
-    closeSignUpOnly(); 
+    closeSignUpOnly();
     openLoginModal();
   };
 

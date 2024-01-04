@@ -48,64 +48,62 @@ function Recommended() {
         )}
         <div className="books">
           {book.map((book) => (
-            <Link
-              href={`/book/${book.id}`}
-              key={book.id}
-              className="book__link"
-            >
-              {loading ? (
-                <div className="skeleton book-wrapper__skeleton"></div>
-              ) : (
-                <>
-                  {book.subscriptionRequired ? (
-                    <div className="premium__sign--book">Premium</div>
-                  ) : null}
-                  {bookLoading ? (
-                    <div className="skeleton book__skeleton"></div>
-                  ) : (
-                    <figure className="book__img--wrapper">
-                      <Image
-                        width={170}
-                        height={170}
-                        src={book.imageLink}
-                        alt={""}
+            <Link href={`/book/${book.id}`} className="book__link">
+              <div key={book.id}>
+                {loading ? (
+                  <div className="skeleton book-wrapper__skeleton"></div>
+                ) : (
+                  <>
+                    {book.subscriptionRequired ? (
+                      <div className="premium__sign--book">Premium</div>
+                    ) : null}
+                    {bookLoading ? (
+                      <div className="skeleton book__skeleton"></div>
+                    ) : (
+                      <figure className="book__img--wrapper">
+                        <Image
+                          width={170}
+                          height={170}
+                          src={book.imageLink}
+                          alt={""}
+                        />
+                      </figure>
+                    )}
+                  </>
+                )}
+                {loading ? (
+                  <div className="skeleton  book__title__skeleton"></div>
+                ) : (
+                  <div className="book__title">{book.title}</div>
+                )}
+                {loading ? (
+                  <div className="skeleton  book-author__skeleton"></div>
+                ) : (
+                  <div className="book__author">{book.author}</div>
+                )}
+                {loading ? (
+                  <div className="skeleton  book-subtitle__skeleton"></div>
+                ) : (
+                  <div className="book__sub-title">{book.subTitle}</div>
+                )}
+                {loading ? (
+                  <div className="skeleton  book__details--skeleton"></div>
+                ) : (
+                  <div className="book__details">
+                    <div className="book__time">
+                      <BiTime />
+                      <AudioDuration
+                        audioLink={book.audioLink}
+                        showDurationTime={true}
                       />
-                    </figure>
-                  )}
-                </>
-              )}
-              {loading ? (
-                <div className="skeleton  book__title__skeleton"></div>
-              ) : (
-                <div className="book__title">{book.title}</div>
-              )}
-              {loading ? (
-                <div className="skeleton  book-author__skeleton"></div>
-              ) : (
-                <div className="book__author">{book.author}</div>
-              )}
-              {loading ? (
-                <div className="skeleton  book-subtitle__skeleton"></div>
-              ) : (
-                <div className="book__sub-title">{book.subTitle}</div>
-              )}
-              {loading ? (
-                <div className="skeleton  book__details--skeleton"></div>
-              ) : (
-                <div className="book__details">
-                  <div className="book__time">
-                    <BiTime />
-                    <AudioDuration
-                      audioLink={book.audioLink}
-                      showDurationTime={true}
-                    />
+                    </div>
+                    <div className="book__ratings">
+                      <AiOutlineStar />
+                      {book.averageRating}
+                    </div>
                   </div>
-                  <div className="book__ratings">
-                    <AiOutlineStar />
-                    {book.averageRating}
-                  </div>
-                </div>
-              )}
+                )}
+              </div>
             </Link>
           ))}
         </div>
