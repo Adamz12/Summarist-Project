@@ -98,6 +98,7 @@ function Recommended() {
                     <AudioDuration
                       audioLink={book.audioLink}
                       showDurationTime={true}
+                      showCurrentTime={undefined}
                     />
                   </div>
                   <div className="book__ratings">

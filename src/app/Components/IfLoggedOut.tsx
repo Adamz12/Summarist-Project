@@ -11,10 +11,18 @@ import {
 import LoginModal from "./LoginModal";
 import SignupModal from "./SignupModal";
 
+interface RootState {
+  modals: {
+    isLoginModalOpen: boolean;
+    isSignUpModalOpen: boolean;
+  };
+}
+
 function IfLoggedOut() {
   const { isLoginModalOpen, isSignUpModalOpen } = useSelector(
-    (state) => state.modals
+    (state: RootState) => state.modals
   );
+
   const dispatch = useDispatch();
 
   const handleLogin = () => {
