@@ -5,7 +5,6 @@ import { setEmailLoginRef } from "../redux/userSlice";
 import { useRouter } from "next/navigation";
 import { getPremiumStatus } from "../stripe/getPremiumStatus";
 import IfLoggedOut from "./IfLoggedOut";
-import { clearUserData, changePage } from "../redux/pageSlice";
 
 function Settings() {
   const [user, setUser] = useState(auth);
@@ -39,7 +38,6 @@ function Settings() {
         console.error("Error fetching premium status:", error);
 
         dispatch(setEmailLoginRef(""));
-        dispatch(clearUserData());
       } finally {
         setLoading(false);
       }
