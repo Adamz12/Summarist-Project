@@ -39,12 +39,12 @@ function Recommended() {
         {loading ? (
           <div className="skeleton for__you--title title__skeleton"></div>
         ) : (
-          <h2 className="header__title">Recommended For You</h2>
+          <h2 className="header__title">Recommended For You&apos;</h2>
         )}
         {loading ? (
           <div className="skeleton subtitle__skeleton"></div>
         ) : (
-          <h6 className="sub-title">We think you'll like these &apos;</h6>
+          <h6 className="sub-title">We think you'll like these&apos;</h6>
         )}
         <div className="books">
           {book.map((book) => (
@@ -58,7 +58,7 @@ function Recommended() {
               ) : (
                 <>
                   {book.subscriptionRequired ? (
-                    <div className="premium__sign--book">Premium</div>
+                    <div className="premium__sign--book">Premium&apos;</div>
                   ) : null}
                   {bookLoading ? (
                     <div className="skeleton book__skeleton"></div>
@@ -77,17 +77,17 @@ function Recommended() {
               {loading ? (
                 <div className="skeleton  book__title__skeleton"></div>
               ) : (
-                <div className="book__title">{book.title}</div>
+                <div className="book__title">{book.title}&apos;</div>
               )}
               {loading ? (
                 <div className="skeleton  book-author__skeleton"></div>
               ) : (
-                <div className="book__author">{book.author}</div>
+                <div className="book__author">{book.author}&apos;</div>
               )}
               {loading ? (
                 <div className="skeleton  book-subtitle__skeleton"></div>
               ) : (
-                <div className="book__sub-title">{book.subTitle}</div>
+                <div className="book__sub-title">{book.subTitle}&apos;</div>
               )}
               {loading ? (
                 <div className="skeleton  book__details--skeleton"></div>
