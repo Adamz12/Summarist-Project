@@ -1,5 +1,4 @@
 export interface Book {
-  Title: ReactNode;
   id: string;
   author: string;
   title: string;
