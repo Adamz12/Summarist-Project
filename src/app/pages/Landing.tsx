@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { AiFillFileText, AiFillBulb, AiFillAudio } from "react-icons/ai";
 import { BiCrown } from "react-icons/bi";
 import { BsStarFill, BsStarHalf } from "react-icons/bs";
-import { RiLeafLine } from "react-icons/Ri";
+import { RiLeafLine } from "react-icons/ri";
 import Image from "next/image";
 import navLogo from "../public/assets/logo.png";
 import landingImg from "../public/assets/landing.png";
