@@ -71,7 +71,7 @@ function Searchbar() {
                   placeholder="Search for books"
                   className="searchbar"
                   onChange={(e) => setSearch(e.target.value)}
-                  ref={inputRef} 
+                  ref={inputRef}
                 />
                 {search.trim() === "" ? (
                   <button className="search__btn" onClick={handleClick}>
@@ -96,11 +96,11 @@ function Searchbar() {
         {search.trim() !== "" && (
           <div className="search__results">
             {book.map((book) => (
-              <Link href={`/book/${book.id}`}>
+              <Link key={book.id} href={`/book/${book.id}`}>
                 {loading ? (
                   <div className="skeleton  search__results--skeleton"></div>
                 ) : (
-                  <div className="search__book--container" key={book.id}>
+                  <div className="search__book--container">
                     <figure className="audio__book--img--wrapper">
                       <Image
                         className="audio__book--img"
