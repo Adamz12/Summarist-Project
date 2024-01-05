@@ -6,18 +6,14 @@ import { useRouter } from "next/navigation";
 import { getPremiumStatus } from "../stripe/getPremiumStatus";
 import IfLoggedOut from "./IfLoggedOut";
 
-
 type Auth = {
-  // Define the structure of your Auth type
-  // For example, you might have properties like uid, email, etc.
   uid: string;
   email: string;
-  // ... other properties
 };
 
 function Settings() {
   const [user, setUser] = useState<Auth | null>(null);
-  const [isPremium, setIsPremium] = useState(null);
+  const [isPremium, setIsPremium] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(true);
   const userEmail = useSelector(
     (state: { emailLoginRef: { emailLoginRef: string } }) =>
@@ -27,14 +23,13 @@ function Settings() {
   const router = useRouter();
   const dispatch = useDispatch();
   console.log(userEmail);
-  
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       setLoading(true);
 
       try {
-        setUser(user as Auth | null); // Specify the type here
+        setUser(user as Auth | null); 
         const isGoogleUser = user?.providerData.some(
           (provider) => provider.providerId === "google.com"
         );
@@ -45,7 +40,9 @@ function Settings() {
           dispatch(setEmailLoginRef(""));
         }
 
-        const newPremiumStatus: boolean = user ? await getPremiumStatus(app) : false;
+        const newPremiumStatus: boolean = user
+          ? await getPremiumStatus(app)
+          : false;
         setIsPremium(newPremiumStatus);
       } catch (error) {
         console.error("Error fetching premium status:", error);
