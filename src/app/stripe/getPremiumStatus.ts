@@ -8,7 +8,7 @@ import {
   where,
 } from "firebase/firestore";
 
-export const getPremiumStatus = async (app: FirebaseApp) => {
+export const getPremiumStatus = async (app: FirebaseApp): Promise<boolean> => {
   const auth = getAuth(app);
   const userId = auth.currentUser?.uid;
   if (!userId) throw new Error("User not logged in");
@@ -32,9 +32,14 @@ export const getPremiumStatus = async (app: FirebaseApp) => {
           console.log("Active or trialing subscription found");
           resolve(true);
         }
-        unsubscribe();
       },
-      reject
+      (error) => {
+        console.error("Error fetching subscription status:", error);
+        reject(error);
+      }
     );
+
+    // Call unsubscribe after the initial if condition
+    unsubscribe();
   });
 };
