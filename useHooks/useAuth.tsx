@@ -20,35 +20,22 @@ import {
   openSignUpModal,
 } from "@/app/redux/modalSlice";
 
+interface RootState {
+  modals: {
+    isLoginModalOpen: boolean;
+    isSignUpModalOpen: boolean;
+  };
+}
+
 export default function useAuth() {
   const router = useRouter();
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
-  const { isLoginModalOpen, isSignUpModalOpen } = useSelector(
-    (state) => state.modals
-  );
-  const currentPage = useSelector((state) => state.currentPage);
 
   const dispatch = useDispatch();
 
-  const handleOpenLogin = () => {
-    isLoginModalOpen(true);
-  };
-
   const handleLogin = () => {
     dispatch(openLoginModal());
-  };
-
-  const handleCloseLogin = () => {
-    dispatch(closeLoginModal());
-  };
-
-  const handleSignUp = () => {
-    dispatch(openSignUpModal());
-  };
-
-  const handleCloseSignUp = () => {
-    dispatch(closeSignUpModal());
   };
 
   const myCollection = collection(db, "users");
