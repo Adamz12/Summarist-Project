@@ -10,17 +10,23 @@ import { useSelector } from "react-redux";
 import styles from "../styles/styles.module.css";
 import { CgSpinner } from "react-icons/cg";
 
+interface RootState {
+  textSize: {
+    textSize: string;
+  };
+}
+
 const Player = () => {
   const [book, setBook] = useState({});
   const { id } = useParams();
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
-  const audioRef = useRef(null);
+  const audioRef = useRef<HTMLInputElement>(null); 
   const animationRef = useRef();
-  const textSize = useSelector((state) => state.textSize.textSize);
+  const textSize = useSelector((state: RootState) => state.textSize.textSize);
   const audio = audioRef.current;
-  const progressBar = useRef();
+  const progressBar = useRef<HTMLInputElement>(null); 
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -44,17 +50,38 @@ const Player = () => {
     }, 2000);
   }, [id]);
 
+  // useEffect(() => {
+  //   const audio = audioRef.current;
+
+  //   if (audio && audio.duration) {
+  //     const seconds = Math.floor(audio.duration);
+  //     setDuration(seconds);
+  //     progressBar.current.max = seconds;
+  //   }
+  // }, [audioRef.current?.duration]);
+
   useEffect(() => {
-    const audio = audioRef.current;
-
-    if (audio && audio.duration) {
-      const seconds = Math.floor(audio.duration);
-      setDuration(seconds);
-      progressBar.current.max = seconds;
+    const audio = audioRef.current as HTMLAudioElement | null;
+  
+    const handleLoadedMetadata = () => {
+      if (audio && audio.duration) {
+        const seconds = Math.floor(audio.duration);
+        setDuration(seconds);
+        progressBar.current?.setAttribute('max', seconds.toString());
+      }
+    };
+  
+    if (audio) {
+      audio.addEventListener('loadedmetadata', handleLoadedMetadata);
+  
+      return () => {
+        audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      };
     }
-  }, [audioRef.current?.duration]);
-
-  const calculateTime = (secs) => {
+  }, [audioRef.current]);
+  
+  
+  const calculateTime = (secs: number) => {
     const minutes = Math.floor(secs / 60);
     const returnedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
     const seconds = Math.floor(secs % 60);
@@ -134,7 +161,7 @@ const Player = () => {
     setCurrentTime(audioRef.current.currentTime);
   };
 
-  const handleDurationChange = (e) => {
+  const handleDurationChange = (e: { target: { duration: React.SetStateAction<number>; }; }) => {
     setDuration(e.target.duration);
   };
 
