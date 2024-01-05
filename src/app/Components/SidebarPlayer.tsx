@@ -29,18 +29,38 @@ import {
 import LoginModal from "./LoginModal";
 import SignupModal from "./SignupModal";
 
+interface RootState {
+  currentPage: string;
+  emailLoginRef: {
+    emailLoginRef: string;
+  };
+  modals: {
+    isLoginModalOpen: boolean;
+    isSignUpModalOpen: boolean;
+  };
+  sidebar: {
+    isOpen: boolean;
+  };
+  textSize: {
+    textSize: string;
+  };
+}
+
 function SidebarPlayer() {
   const { logout } = useAuth();
   const [activeTab, setActiveTab] = useState("");
-  const currentPage = useSelector((state) => state.currentPage);
+  const currentPage = useSelector((state: RootState) => state.currentPage);
   const dispatch = useDispatch();
   const router = useRouter();
-  const userEmail = useSelector((state) => state.emailLoginRef.emailLoginRef);
-  const textSize = useSelector((state) => state.textSize.textSize);
-  const { isLoginModalOpen, isSignUpModalOpen } = useSelector(
-    (state) => state.modals
+  const userEmail = useSelector(
+    (state: { emailLoginRef: { emailLoginRef: string } }) =>
+      state.emailLoginRef.emailLoginRef
   );
-  const isOpen = useSelector((state) => state.sidebar.isOpen);
+  const textSize = useSelector((state: RootState) => state.textSize.textSize);
+  const isOpen = useSelector((state: RootState) => state.sidebar.isOpen);
+  const { isLoginModalOpen, isSignUpModalOpen } = useSelector(
+    (state: RootState) => state.modals
+  );
 
   const handleClick = (tabName: string) => {
     if (currentPage === tabName) {
@@ -53,7 +73,7 @@ function SidebarPlayer() {
     dispatch(changePage(tabName));
   };
 
-  const handleTextSizeChange = (size) => {
+  const handleTextSizeChange = (size: string) => {
     if (textSize === size) {
       console.log(`Tab ${size} is already active`);
       return;
@@ -87,7 +107,7 @@ function SidebarPlayer() {
   return (
     <section className={`foryou__sidebar ${isOpen ? "sidebar__opened" : ""}`}>
       <figure className="foryou__logo--wrapper">
-        <Image className="foryou__logo" src={navLogo} />
+        <Image className="foryou__logo" src={navLogo} alt={""} />
       </figure>
       <div className="foryou__list--wrapper foryou__list--wrapper--player">
         <ul className="navigation__list">
