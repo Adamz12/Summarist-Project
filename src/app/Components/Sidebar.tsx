@@ -25,16 +25,34 @@ import {
 } from "../redux/modalSlice";
 import { setEmailLoginRef } from "../redux/userSlice";
 
+interface RootState {
+  currentPage: string;
+  emailLoginRef: {
+    emailLoginRef: string;
+  };
+  modals: {
+    isLoginModalOpen: boolean;
+    isSignUpModalOpen: boolean;
+  };
+  sidebar: {
+    isOpen: boolean;
+  };
+  // Add other state properties as needed
+}
+
 function Sidebar() {
   const { logout } = useAuth();
   const [activeTab, setActiveTab] = useState("");
-  const currentPage = useSelector((state) => state.currentPage);
+  const currentPage = useSelector((state: RootState) => state.currentPage);
   const dispatch = useDispatch();
-  const userEmail = useSelector((state) => state.emailLoginRef.emailLoginRef);
-  const { isLoginModalOpen, isSignUpModalOpen } = useSelector(
-    (state) => state.modals
+  const isOpen = useSelector((state: RootState) => state.sidebar.isOpen);
+  const userEmail = useSelector(
+    (state: { emailLoginRef: { emailLoginRef: string } }) =>
+      state.emailLoginRef.emailLoginRef
   );
-  const isOpen = useSelector((state) => state.sidebar.isOpen);
+  const { isLoginModalOpen, isSignUpModalOpen } = useSelector(
+    (state: RootState) => state.modals
+  );
 
   const router = useRouter();
 
@@ -73,7 +91,7 @@ function Sidebar() {
   return (
     <section className={`foryou__sidebar ${isOpen ? "sidebar__opened" : ""}`}>
       <figure className="foryou__logo--wrapper">
-        <Image className="foryou__logo" src={navLogo} />
+        <Image className="foryou__logo" src={navLogo} alt={""} />
       </figure>
       <div className="foryou__list--wrapper">
         <ul className="navigation__list">
