@@ -9,9 +9,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { closeSidebar } from "../redux/sidebarSlice";
 import { SkeletonTheme } from "react-loading-skeleton";
 
+interface RootState {
+  currentPage: string;
+  emailLoginRef: {
+    emailLoginRef: string;
+  };
+  sidebar: {
+    isOpen: boolean;
+  };
+}
+
 function Foryou() {
-  const currentPage = useSelector((state) => state.currentPage);
-  const isOpen = useSelector((state) => state.sidebar.isOpen);
+  const currentPage = useSelector((state: RootState) => state.currentPage);
+  const isOpen = useSelector((state: RootState) => state.sidebar.isOpen);
   const dispatch = useDispatch();
 
   const handleCloseSidebar = () => {

@@ -32,7 +32,7 @@ interface RootState {
 }
 
 function BookPage() {
-  const [book, setBook] = useState<Book[]>([]);
+  const [book, setBook] = useState<Book | null>(null); 
   const { id } = useParams();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -64,7 +64,7 @@ function BookPage() {
   }, [id]);
 
   const routingPlayer = () => {
-    router.push(`/player/${book.id}`);
+    router.push(`/player/${book?.id}`);
   };
 
   const handleLogin = () => {

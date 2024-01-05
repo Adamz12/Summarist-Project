@@ -5,8 +5,14 @@ import Player from "@/app/pages/Player";
 import SidebarPlayer from "@/app/Components/SidebarPlayer";
 import { closeSidebar } from "@/app/redux/sidebarSlice";
 
+interface RootState {
+  sidebar: {
+    isOpen: boolean;
+  };
+}
+
 export default function Page() {
-  const isOpen = useSelector((state) => state.sidebar.isOpen);
+  const isOpen = useSelector((state: RootState) => state.sidebar.isOpen);
   const dispatch = useDispatch();
 
   const handleCloseSidebar = () => {

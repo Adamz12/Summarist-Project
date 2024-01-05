@@ -6,9 +6,16 @@ import Settings from "../Components/Settings";
 import Searchbar from "../Components/Searchbar";
 import { closeSidebar } from "../redux/sidebarSlice";
 
+interface RootState {
+  currentPage: string;
+  sidebar: {
+    isOpen: boolean;
+  };
+}
+
 export default function Page() {
-  const currentPage = useSelector((state) => state.currentPage);
-  const isOpen = useSelector((state) => state.sidebar.isOpen);
+  const currentPage = useSelector((state: RootState) => state.currentPage);
+  const isOpen = useSelector((state: RootState) => state.sidebar.isOpen);
   const dispatch = useDispatch();
 
   const handleCloseSidebar = () => {
