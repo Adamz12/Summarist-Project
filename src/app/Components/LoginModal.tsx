@@ -40,22 +40,26 @@ function LoginModal({
     preventDefault: () => void;
   }) => {
     e.preventDefault();
-
+  
     const Loginemail = emaiLoginRef.current?.value;
     const Loginpassword = passwordLoginRef.current?.value;
-
+  
     try {
-      console.log("it works on loginmodal");
-      loginEmailAndPassword(Loginemail, Loginpassword);
-      setLoginLoading(true);
-
-      setTimeout(() => {
-        dispatch(changePage("ForYou"));
-      }, 2000);
+      if (Loginemail !== undefined && Loginpassword !== undefined) {
+        loginEmailAndPassword(Loginemail, Loginpassword);
+        setLoginLoading(true);
+  
+        setTimeout(() => {
+          dispatch(changePage("ForYou"));
+        }, 2000);
+      } else {
+        console.error("Loginemail or Loginpassword is undefined");
+      }
     } catch (error) {
       console.error("Login failed with error:", error);
     }
   };
+  
 
   const handleGoogleLogin = () => {
     setGoogleLoading(true);
@@ -189,8 +193,7 @@ function LoginModal({
           {isSignUpOpen && (
             <SignupModal
               isSignUpModalOpen={isSignUpOpen}
-              closeSignUpModal={() => setSignUpOpen(false)}
-            />
+              closeSignUpModal={() => setSignUpOpen(false)} openLoginModal={undefined}            />
           )}
         </Box>
       </Modal>
