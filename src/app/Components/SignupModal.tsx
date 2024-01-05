@@ -13,15 +13,26 @@ import { auth } from "../../../firebase";
 import { CgSpinner } from "react-icons/cg";
 import { changePage } from "../redux/pageSlice";
 import { useDispatch } from "react-redux";
+import { AuthError } from "firebase/auth";
 
-function SignupModal({ isSignUpModalOpen, closeSignUpModal, openLoginModal }) {
+interface SignupModalProps {
+  isSignUpModalOpen: boolean;
+  closeSignUpModal: () => void;
+  openLoginModal: () => void;
+}
+
+function SignupModal({
+  isSignUpModalOpen,
+  closeSignUpModal,
+  openLoginModal,
+}: SignupModalProps) {
   const { googleLogin } = useAuth();
   const dispatch = useDispatch();
   const [error, setError] = useState<AuthError | null>(null);
   const [signUpLoading, setSignUpLoading] = useState(false);
   const { registerEmailAndPassword } = useAuth();
-  const emailRef = useRef();
-  const passwordRef = useRef();
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   const signUpAccount = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -30,12 +41,14 @@ function SignupModal({ isSignUpModalOpen, closeSignUpModal, openLoginModal }) {
     const password = passwordRef.current?.value;
 
     try {
-      registerEmailAndPassword(email, password);
-      setSignUpLoading(true);
+      if (email !== undefined && password !== undefined) {
+        registerEmailAndPassword(email, password);
+        setSignUpLoading(true);
 
-      setTimeout(() => {
-        dispatch(changePage("ForYou"));
-      }, 2000);
+        setTimeout(() => {
+          dispatch(changePage("ForYou"));
+        }, 2000);
+      }
     } catch (error) {
       console.error("Register failed with error:", error);
     }

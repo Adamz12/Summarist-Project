@@ -97,9 +97,8 @@ function Suggested() {
                   <div className="book__time">
                     <BiTime />
                     <AudioDuration
-                      audioLink={book.audioLink}
-                      showDurationTime={true}
-                    />
+                        audioLink={book.audioLink}
+                        showDurationTime={true} showCurrentTime={undefined}                    />
                   </div>
                   <div className="book__ratings">
                     <AiOutlineStar />

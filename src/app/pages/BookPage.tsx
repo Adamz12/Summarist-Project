@@ -21,14 +21,27 @@ import {
 import LoginModal from "../Components/LoginModal";
 import SignupModal from "../Components/SignupModal";
 
+interface RootState {
+  emailLoginRef: {
+    emailLoginRef: string;
+  };
+  modals: {
+    isLoginModalOpen: boolean;
+    isSignUpModalOpen: boolean;
+  };
+}
+
 function BookPage() {
   const [book, setBook] = useState<Book[]>([]);
   const { id } = useParams();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const userEmail = useSelector((state) => state.emailLoginRef.emailLoginRef);
+  const userEmail = useSelector(
+    (state: { emailLoginRef: { emailLoginRef: string } }) =>
+      state.emailLoginRef.emailLoginRef
+  );
   const { isLoginModalOpen, isSignUpModalOpen } = useSelector(
-    (state) => state.modals
+    (state: RootState) => state.modals
   );
   const dispatch = useDispatch();
 

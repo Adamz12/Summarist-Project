@@ -193,7 +193,9 @@ function LoginModal({
           {isSignUpOpen && (
             <SignupModal
               isSignUpModalOpen={isSignUpOpen}
-              closeSignUpModal={() => setSignUpOpen(false)} openLoginModal={undefined}            />
+              closeSignUpModal={() => setSignUpOpen(false)} openLoginModal={function (): void {
+                throw new Error("Function not implemented.");
+              } }           />
           )}
         </Box>
       </Modal>
