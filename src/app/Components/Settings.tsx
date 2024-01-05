@@ -10,7 +10,10 @@ function Settings() {
   const [user, setUser] = useState(auth);
   const [isPremium, setIsPremium] = useState(null);
   const [loading, setLoading] = useState(true);
-  const userEmail = useSelector((state) => state.emailLoginRef.emailLoginRef);
+  const userEmail = useSelector(
+    (state: { emailLoginRef: { emailLoginRef: string } }) =>
+      state.emailLoginRef.emailLoginRef
+  );
 
   const router = useRouter();
   const dispatch = useDispatch();
