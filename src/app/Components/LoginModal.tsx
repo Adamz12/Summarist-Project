@@ -33,8 +33,8 @@ function LoginModal({
   const [googleLoading, setGoogleLoading] = useState(false);
   const [loginLoading, setLoginLoading] = useState(false);
   const dispatch = useDispatch();
-  const emaiLoginRef = useRef();
-  const passwordLoginRef = useRef();
+  const emaiLoginRef = useRef<HTMLInputElement>(null);
+  const passwordLoginRef = useRef<HTMLInputElement>(null);
 
   const handleLoginEmailAndPassword = async (e: {
     preventDefault: () => void;
