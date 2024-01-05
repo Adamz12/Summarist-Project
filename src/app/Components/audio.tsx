@@ -1,6 +1,16 @@
 import React, { useEffect, useState } from "react";
 
-function AudioDuration({ audioLink, showCurrentTime, showDurationTime }) {
+interface AudioDurationProps {
+  audioLink: string;
+  showCurrentTime?: boolean;
+  showDurationTime?: boolean;
+}
+
+function AudioDuration({
+  audioLink,
+  showCurrentTime = false,
+  showDurationTime = false,
+}: AudioDurationProps) {
   const [duration, setDuration] = useState("0:00");
   const [currentTime, setCurrentTime] = useState("0:00");
 
