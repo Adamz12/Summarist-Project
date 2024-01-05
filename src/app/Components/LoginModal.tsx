@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import { AiOutlineClose } from "react-icons/ai";
@@ -14,10 +14,19 @@ import { changePage } from "../redux/pageSlice";
 import { CgSpinner } from "react-icons/cg";
 import { openLoginModal } from "../redux/modalSlice";
 
-function LoginModal({ isLoginModalOpen, closeLoginModal, openSignUpModal }) {
+function LoginModal({
+  isLoginModalOpen,
+  closeLoginModal,
+  openSignUpModal,
+}: {
+  isLoginModalOpen: boolean;
+  closeLoginModal: () => void;
+  openSignUpModal: () => void;
+}) {
   const { loginEmailAndPassword } = useAuth();
   const { googleLogin } = useAuth();
   const { handleGuestSignIn } = useAuth();
+
   const [isSignUpOpen, setSignUpOpen] = useState(false);
   const [loginSuccess, setLoginSuccess] = useState(false);
   const [guestLoading, setGuestLoading] = useState(false);
@@ -61,8 +70,8 @@ function LoginModal({ isLoginModalOpen, closeLoginModal, openSignUpModal }) {
     setGuestLoading(true);
     setTimeout(() => {
       handleGuestSignIn();
-      closeLoginOnly();
       dispatch(changePage("ForYou"));
+      closeLoginOnly();
     }, 2000);
   };
 

@@ -129,7 +129,9 @@ export default function useAuth() {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log("Guest user signed in:", user);
-        router.push("/foryou");
+        if (user && userCredential) {
+          dispatch(setEmailLoginRef(user.email));
+        }
       })
       .catch((error) => {
         console.error("Error signing in as a guest:", error);
