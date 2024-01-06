@@ -109,7 +109,7 @@ function SidebarPlayer() {
       <figure className="foryou__logo--wrapper">
         <Image className="foryou__logo" src={navLogo} alt={""} />
       </figure>
-      <div className="foryou__list--wrapper foryou__list--wrapper--player">
+      <div className="foryou__list--wrapper--player">
         <ul className="navigation__list">
           <Link
             className="sidebar__links"

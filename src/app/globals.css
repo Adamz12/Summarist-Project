@@ -695,7 +695,11 @@ FOR YOU SIDEBAR
 }
 
 .foryou__list--wrapper--player {
-  padding-bottom: 80px;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 120px);
+  padding-bottom: 20px;
+  overflow-y: auto;
 }
 
 .foryou__logo--wrapper {
@@ -2203,7 +2207,7 @@ SKELETON LOADING STATE
   }
 
   .foryou__list--wrapper--player {
-    height: calc(100vh - 160px);
+    height: calc(100vh - 210px);
   }
 
   .search__background {
@@ -2271,9 +2275,6 @@ SKELETON LOADING STATE
 @media (max-width: 576px) {
   .nav__list--mobile {
     display: none;
-  }
-  .foryou__list--wrapper--player {
-    height: calc(100vh - 240px);
   }
 
   .foryou__list--wrapper {
