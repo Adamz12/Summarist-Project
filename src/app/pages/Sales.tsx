@@ -9,14 +9,14 @@ import { IoIosArrowDown } from "react-icons/io";
 import app, { auth } from "../../../firebase";
 import usePremiumStatus from "../stripe/userPremiumStatus";
 import { createCheckoutSession } from "../stripe/createCheckoutSession";
-
+import { User } from "firebase/auth";
 
 function Sales() {
   const [showAnswers, setShowAnswers] = useState([false, false, false, false]);
   const [flipArrows, setFlipArrows] = useState([false, false, false, false]);
-  const [dotActive, setDotActive] = useState(null);
-  const [greenBorder, setGreenBorder] = useState(null);
-  const [user, setUser] = useState(null);
+  const [dotActive, setDotActive] = useState<number | null>(null);
+  const [greenBorder, setGreenBorder] = useState<number | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const userIsPremium = usePremiumStatus(user);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ function Sales() {
     return () => unsubscribe();
   }, []);
 
-  const toggleAnswer = (index: string | number) => {
+  const toggleAnswer = (index: number) => {
     const updatedAnswers = [...showAnswers];
     updatedAnswers[index] = !updatedAnswers[index];
     setShowAnswers(updatedAnswers);
@@ -37,11 +37,11 @@ function Sales() {
     setFlipArrows(updatedFlipArrows);
   };
 
-  const handleDot = (index) => {
+  const handleDot = (index: number) => {
     if (index === dotActive) {
     } else {
       setDotActive(index);
-      setGreenBorder(index);
+      setGreenBorder(index!);
     }
   };
 
@@ -56,8 +56,9 @@ function Sales() {
         const checkoutSessionUrl = await createCheckoutSession(app, isMonthly);
 
         window.location.href = checkoutSessionUrl;
-      } catch (error) {
+      } catch (error: any) {
         console.error("Error creating checkout session:", error.message);
+
       }
     } else {
       console.error("User not logged in");
@@ -160,7 +161,7 @@ function Sales() {
             <div className="plan__card--btn--wrapper">
               <button
                 className="plan__choice--btn"
-                onClick={() => handleCheckout(user.uid)}
+                onClick={() => handleCheckout()}
               >
                 {dotActive === 1
                   ? "Start your first month"
