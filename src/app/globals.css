@@ -2069,7 +2069,6 @@ SKELETON LOADING STATE
   }
 }
 
-
 @media screen and (max-width: 768px) {
   .foryou__sidebar {
     transform: translateX(-100%);
@@ -2272,5 +2271,12 @@ SKELETON LOADING STATE
 @media (max-width: 576px) {
   .nav__list--mobile {
     display: none;
+  }
+  .foryou__list--wrapper--player {
+    height: calc(100vh - 240px);
+  }
+
+  .foryou__list--wrapper {
+    height: calc(100vh - 240px);
   }
 }
