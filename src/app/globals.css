@@ -2203,6 +2203,10 @@ SKELETON LOADING STATE
     margin-left: 0;
   }
 
+  .foryou__list--wrapper--player {
+    height: calc(100vh - 160px);
+  }
+
   .search__background {
     margin-left: 0;
   }
