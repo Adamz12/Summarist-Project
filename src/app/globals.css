@@ -2276,6 +2276,9 @@ SKELETON LOADING STATE
   .nav__list--mobile {
     display: none;
   }
+  .foryou__list--wrapper--player {
+    height: calc(100vh - 240px);
+  }
 
   .foryou__list--wrapper {
     height: calc(100vh - 120px);
