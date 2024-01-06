@@ -9,6 +9,7 @@ import { TbRewindForward10 } from "react-icons/tb";
 import { useSelector } from "react-redux";
 import styles from "../styles/styles.module.css";
 import { CgSpinner } from "react-icons/cg";
+import { Book } from "../API Data/book";
 
 interface RootState {
   textSize: {
@@ -17,16 +18,16 @@ interface RootState {
 }
 
 const Player = () => {
-  const [book, setBook] = useState({});
+  const [book, setBook] = useState<Book[]>([]);
   const { id } = useParams();
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
-  const audioRef = useRef<HTMLInputElement>(null); 
-  const animationRef = useRef();
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const animationRef = useRef<number | null>(null);
   const textSize = useSelector((state: RootState) => state.textSize.textSize);
   const audio = audioRef.current;
-  const progressBar = useRef<HTMLInputElement>(null); 
+  const progressBar = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -35,6 +36,7 @@ const Player = () => {
         const { data } = await axios.get(
           `https://us-central1-summaristt.cloudfunctions.net/getBook?id=${id}`
         );
+        console.log(data);
         setBook(data);
       } catch (error) {
         console.error("Error fetching book:", error);
@@ -50,37 +52,26 @@ const Player = () => {
     }, 2000);
   }, [id]);
 
-  // useEffect(() => {
-  //   const audio = audioRef.current;
-
-  //   if (audio && audio.duration) {
-  //     const seconds = Math.floor(audio.duration);
-  //     setDuration(seconds);
-  //     progressBar.current.max = seconds;
-  //   }
-  // }, [audioRef.current?.duration]);
-
   useEffect(() => {
     const audio = audioRef.current as HTMLAudioElement | null;
-  
+
     const handleLoadedMetadata = () => {
       if (audio && audio.duration) {
         const seconds = Math.floor(audio.duration);
         setDuration(seconds);
-        progressBar.current?.setAttribute('max', seconds.toString());
+        progressBar.current?.setAttribute("max", seconds.toString());
       }
     };
-  
+
     if (audio) {
-      audio.addEventListener('loadedmetadata', handleLoadedMetadata);
-  
+      audio.addEventListener("loadedmetadata", handleLoadedMetadata);
+
       return () => {
-        audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
+        audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
       };
     }
   }, [audioRef.current]);
-  
-  
+
   const calculateTime = (secs: number) => {
     const minutes = Math.floor(secs / 60);
     const returnedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
@@ -91,78 +82,114 @@ const Player = () => {
 
   const whilePlaying = () => {
     const audio = audioRef.current;
-    const newTime = (audio.currentTime / duration) * 100;
-    progressBar.current.style.setProperty("--range-progress", `${newTime}%`);
 
-    progressBar.current.value = audio.currentTime;
-    setCurrentTime(audio.currentTime);
-    animationRef.current = requestAnimationFrame(whilePlaying);
+    if (audio && audio.duration) {
+      const newTime = (audio.currentTime / audio.duration) * 100;
+
+      const progressBarElement = progressBar.current as HTMLInputElement | null;
+
+      if (progressBarElement) {
+        progressBarElement.style.setProperty("--range-progress", `${newTime}%`);
+        progressBarElement.value = audio.currentTime.toString();
+      }
+
+      setCurrentTime(audio.currentTime);
+      animationRef.current = requestAnimationFrame(whilePlaying);
+    }
   };
 
   useEffect(() => {
     if (isPlaying) {
       animationRef.current = requestAnimationFrame(whilePlaying);
     } else {
-      cancelAnimationFrame(animationRef.current);
+      cancelAnimationFrame(animationRef.current as number);
     }
 
     return () => {
-      cancelAnimationFrame(animationRef.current);
+      cancelAnimationFrame(animationRef.current as number);
     };
   }, [isPlaying]);
 
   const changeRange = () => {
-    const newTime = progressBar.current.value;
-    audioRef.current.currentTime = newTime;
-    setCurrentTime(newTime);
+    const newTime = progressBar.current?.value;
 
-    progressBar.current.style.setProperty(
-      "--seek-before-width",
-      `${(newTime / duration) * 100}%`
-    );
+    if (newTime && typeof newTime === "string") {
+      const parsedTime = parseFloat(newTime);
+
+      if (!isNaN(parsedTime)) {
+        audioRef.current!.currentTime = parsedTime;
+        setCurrentTime(parsedTime);
+
+        progressBar.current!.style.setProperty(
+          "--seek-before-width",
+          `${(parsedTime / duration) * 100}%`
+        );
+      }
+    }
   };
 
   const changePlayerCurrentTime = () => {
-    progressBar.current.style.setProperty(
-      "--seek-before-width",
-      `${(progressBar.current.value / duration) * 100}%`
-    );
-    setCurrentTime(progressBar.current.value);
+    const progressBarElement = progressBar.current;
+
+    if (progressBarElement instanceof HTMLInputElement) {
+      progressBarElement.style.setProperty(
+        "--seek-before-width",
+        `${(progressBarElement.valueAsNumber / duration) * 100}%`
+      );
+      setCurrentTime(progressBarElement.valueAsNumber);
+    }
   };
 
   const backTen = () => {
-    progressBar.current.value = Number(progressBar.current.value - 10);
-    changeRange();
+    const progressBarElement = progressBar.current;
+
+    if (progressBarElement instanceof HTMLInputElement) {
+      progressBarElement.value = (
+        Number(progressBarElement.value) - 10
+      ).toString();
+      changeRange();
+    }
   };
 
   const forwardTen = () => {
-    const newTime = Number(progressBar.current.value) + 10;
-    const maxTime = progressBar.current.max;
+    const progressBarElement = progressBar.current;
 
-    const adjustedTime = Math.min(newTime, maxTime);
+    if (progressBarElement instanceof HTMLInputElement) {
+      const newTime = Number(progressBarElement.value) + 10;
+      const maxTime = Number(progressBarElement.max);
 
-    progressBar.current.value = adjustedTime;
-    changeRange();
+      const adjustedTime = Math.min(newTime, maxTime);
+
+      progressBarElement.value = adjustedTime.toString();
+      changeRange();
+    }
   };
 
   const handlePlay = () => {
-    const audio = audioRef.current;
-    if (isPlaying) {
-      audio.pause();
-      cancelAnimationFrame(animationRef.current);
-    } else {
-      audio.play();
-      animationRef.current = requestAnimationFrame(whilePlaying);
+    const currentAudio = audioRef.current;
+
+    if (currentAudio) {
+      if (isPlaying) {
+        currentAudio.pause();
+        cancelAnimationFrame(animationRef.current as number);
+      } else {
+        currentAudio.play();
+        animationRef.current = requestAnimationFrame(whilePlaying);
+      }
+      setIsPlaying(!isPlaying);
     }
-    setIsPlaying(!isPlaying);
   };
 
   const handleTimeUpdate = () => {
-    setCurrentTime(audioRef.current.currentTime);
+    const currentAudio = audioRef.current;
+
+    if (currentAudio) {
+      setCurrentTime(currentAudio.currentTime);
+    }
   };
 
-  const handleDurationChange = (e: { target: { duration: React.SetStateAction<number>; }; }) => {
-    setDuration(e.target.duration);
+  const handleDurationChange = (e: React.SyntheticEvent<HTMLAudioElement>) => {
+    setDuration(e.currentTarget.duration);
   };
 
   return (
@@ -177,9 +204,11 @@ const Player = () => {
                 </figure>
               ) : (
                 <div className="page__book--wrapper">
-                  <h1 className="page__book--title">{book.title}</h1>
+                  <h1 className="page__book--title">
+                    {(book as unknown as Book).title}
+                  </h1>
                   <p className={`page__book--text text-size-${textSize}`}>
-                    {book.summary}
+                    {(book as unknown as Book).summary}
                   </p>
                 </div>
               )}
@@ -191,7 +220,7 @@ const Player = () => {
                     <figure className="audio__book--img--wrapper">
                       <Image
                         className="audio__book--img"
-                        src={book.imageLink}
+                        src={(book as unknown as Book).imageLink}
                         width={50}
                         height={50}
                         alt={""}
@@ -202,12 +231,16 @@ const Player = () => {
                     {loading ? (
                       <div className="skeleton player__page-title__skeleton"></div>
                     ) : (
-                      <h4 className="audio__book--title">{book.title}</h4>
+                      <h4 className="audio__book--title">
+                        {(book as unknown as Book).title}
+                      </h4>
                     )}
                     {loading ? (
                       <div className="skeleton player__page-author__skeleton"></div>
                     ) : (
-                      <h5 className="audio__book--author">{book.author}</h5>
+                      <h5 className="audio__book--author">
+                        {(book as unknown as Book).author}
+                      </h5>
                     )}
                   </div>
                 </div>
@@ -245,7 +278,7 @@ const Player = () => {
                   <div className="audio__time--file">
                     <audio
                       ref={audioRef}
-                      src={book.audioLink}
+                      src={(book as unknown as Book).audioLink}
                       onTimeUpdate={handleTimeUpdate}
                       onDurationChange={handleDurationChange}
                     />

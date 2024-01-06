@@ -1783,11 +1783,13 @@ PLAYER PAGE
 .fast-forward {
   font-size: 28px;
   color: white;
+  cursor: pointer;
 }
 
 .rewind {
   font-size: 28px;
   color: white;
+  cursor: pointer;
 }
 
 .play-button {
