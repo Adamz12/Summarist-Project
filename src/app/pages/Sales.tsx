@@ -10,13 +10,17 @@ import app, { auth } from "../../../firebase";
 import usePremiumStatus from "../stripe/userPremiumStatus";
 import { createCheckoutSession } from "../stripe/createCheckoutSession";
 import { User } from "firebase/auth";
+import { CgSpinner } from "react-icons/cg";
+import { useRouter } from "next/navigation";
 
 function Sales() {
+  const router = useRouter();
   const [showAnswers, setShowAnswers] = useState([false, false, false, false]);
   const [flipArrows, setFlipArrows] = useState([false, false, false, false]);
   const [dotActive, setDotActive] = useState<number | null>(null);
   const [greenBorder, setGreenBorder] = useState<number | null>(null);
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(false);
   const userIsPremium = usePremiumStatus(user);
 
   useEffect(() => {
@@ -49,16 +53,17 @@ function Sales() {
     console.log("Handle checkout clicked");
     if (user) {
       console.log("User exists:", user);
-
+      setLoading(true);
       try {
         const isMonthly = dotActive === 1;
 
         const checkoutSessionUrl = await createCheckoutSession(app, isMonthly);
 
         window.location.href = checkoutSessionUrl;
+
+        router.push('/foryou');
       } catch (error: any) {
         console.error("Error creating checkout session:", error.message);
-
       }
     } else {
       console.error("User not logged in");
@@ -163,9 +168,17 @@ function Sales() {
                 className="plan__choice--btn"
                 onClick={() => handleCheckout()}
               >
-                {dotActive === 1
-                  ? "Start your first month"
-                  : "Start your free 7 day trial"}
+                {loading ? (
+                  <figure className="spinner__wrapper">
+                    <CgSpinner className="spinner__modal" />
+                  </figure>
+                ) : (
+                  <>
+                    {dotActive === 1
+                      ? "Start your first month"
+                      : "Start your free 7 day trial"}
+                  </>
+                )}
               </button>
               <p className="plan__choice--gurantee">
                 {dotActive === 1

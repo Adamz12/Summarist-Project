@@ -1867,6 +1867,10 @@ SKELETON LOADING STATE
   animation: skeleton-loading 1s linear infinite alternate;
 }
 
+.skeleton.book__link:hover{
+  animation: skeleton-loading 1s linear infinite alternate;
+}
+
 @keyframes skeleton-loading {
   0% {
     background-color: hsl(200, 20%, 80%);
@@ -1889,6 +1893,22 @@ SKELETON LOADING STATE
 .subtitle__skeleton {
   width: 180px;
   height: 16px;
+}
+
+.book-loading__skeleton.book__link:hover:not(:disabled) {
+  min-width: 200px;
+  width: 200px;
+}
+
+.book__link.loading {
+  pointer-events: none;
+}
+.book__personal.loading {
+  pointer-events: none;
+}
+
+.book__link:not(.loading):hover {
+  background-color: #f1f6f4;
 }
 
 .book-wrapper__skeleton {

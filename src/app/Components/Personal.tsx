@@ -40,7 +40,7 @@ function Personal() {
             <Link
               href={`/book/${book.id}`}
               key={book.id}
-              className="book__personal"
+              className={`book__personal ${loading ? 'loading' : ''}`}
             >
               {loading ? (
                 <div className="skeleton selected__book personal__skeleton"></div>

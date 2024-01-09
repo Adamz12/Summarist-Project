@@ -52,7 +52,7 @@ function Suggested() {
             <Link
               href={`/book/${book.id}`}
               key={book.id}
-              className="book__link"
+              className={`book__link ${loading ? 'loading' : ''}`}
             >
               {loading ? (
                 <div className="skeleton book-wrapper__skeleton"></div>

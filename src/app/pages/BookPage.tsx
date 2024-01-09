@@ -20,6 +20,8 @@ import {
 } from "../redux/modalSlice";
 import LoginModal from "../Components/LoginModal";
 import SignupModal from "../Components/SignupModal";
+import usePremiumStatus from "../stripe/userPremiumStatus";
+import { auth } from "../../../firebase";
 
 interface RootState {
   emailLoginRef: {
@@ -32,10 +34,11 @@ interface RootState {
 }
 
 function BookPage() {
-  const [book, setBook] = useState<Book | null>(null); 
+  const [book, setBook] = useState<Book | null>(null);
   const { id } = useParams();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(auth.currentUser);
   const userEmail = useSelector(
     (state: { emailLoginRef: { emailLoginRef: string } }) =>
       state.emailLoginRef.emailLoginRef
@@ -63,8 +66,22 @@ function BookPage() {
     }
   }, [id]);
 
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((customer) => {
+      setUser(customer);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const userIsPremium = usePremiumStatus(user);
+
   const routingPlayer = () => {
-    router.push(`/player/${book?.id}`);
+    if (userIsPremium) {
+      router.push(`/player/${book?.id}`);
+    } else {
+      router.push("/sales");
+    }
   };
 
   const handleLogin = () => {
@@ -274,3 +291,6 @@ function BookPage() {
 }
 
 export default BookPage;
+function setUser(customer: import("@firebase/auth").User | null) {
+  throw new Error("Function not implemented.");
+}
