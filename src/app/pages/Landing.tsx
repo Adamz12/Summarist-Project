@@ -168,7 +168,10 @@ function Landing() {
               <div className="statistics__content--details statistics__content--details-second">
                 <div className="statistics__data">
                   <div className="statistics__data--number">91%</div>
-                  <div className="statistics__data--title">hf</div>
+                  <div className="statistics__data--title">
+                    of Summarist members <b>report feeling more productive</b>
+                    after incorporating the service into their daily routine.
+                  </div>
                 </div>
                 <div className="statistics__data">
                   <div className="statistics__data--number">94%</div>
@@ -213,6 +216,10 @@ function Landing() {
                   <div className="review__name">Hanna M.</div>
                   <div className="review__stars">
                     <BsStarFill />
+                    <BsStarFill />
+                    <BsStarFill />
+                    <BsStarFill />
+                    <BsStarFill />
                   </div>
                 </div>
                 <div className="review__body">
@@ -225,6 +232,10 @@ function Landing() {
                 <div className="review__header">
                   <div className="review__name">David B.</div>
                   <div className="review__stars">
+                    <BsStarFill />
+                    <BsStarFill />
+                    <BsStarFill />
+                    <BsStarFill />
                     <BsStarFill />
                   </div>
                 </div>
@@ -240,6 +251,10 @@ function Landing() {
                   <div className="review__name">Nathan S.</div>
                   <div className="review__stars">
                     <BsStarFill />
+                    <BsStarFill />
+                    <BsStarFill />
+                    <BsStarFill />
+                    <BsStarFill />
                   </div>
                 </div>
                 <div className="review__body">
@@ -253,6 +268,10 @@ function Landing() {
                 <div className="review__header">
                   <div className="review__name">Ryan R.</div>
                   <div className="review__stars">
+                    <BsStarFill />
+                    <BsStarFill />
+                    <BsStarFill />
+                    <BsStarFill />
                     <BsStarFill />
                   </div>
                 </div>
